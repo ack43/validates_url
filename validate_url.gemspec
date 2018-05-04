@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
     "lib/locale/zh-TW.yml",
     "lib/validate_url.rb"
   ]
-  s.homepage = "http://github.com/ack43/validates_url/tree/master"
+  s.homepage = "http://github.com/ack43/validates_url"
   s.rubygems_version = "2.4.5"
   s.summary = "Library for validating urls in Rails."
 
