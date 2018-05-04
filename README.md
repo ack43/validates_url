@@ -2,14 +2,18 @@
 
 This gem adds the capability of validating URLs to ActiveRecord and ActiveModel.
 
+## This is fork
+
+So i added support for URL without scheme
+
 ## Installation
 
 ```    
 # add this to your Gemfile
-gem "validate_url"
+gem "validate_url", github:'ack43/validates_url'
 
 # and  run
-sudo gem install validate_url
+bundle install
 ```
 
 ## Usage

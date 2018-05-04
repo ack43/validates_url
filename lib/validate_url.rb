@@ -8,7 +8,7 @@ module ActiveModel
       RESERVED_OPTIONS = [:schemes, :no_local]
 
       def initialize(options)
-        options.reverse_merge!(schemes: %w(http https))
+        options.reverse_merge!(schemes: ['http', 'https', nil]) # http://site.domain https://site.domain //site.domain
         options.reverse_merge!(message: :url)
         options.reverse_merge!(no_local: false)
 
@@ -16,7 +16,9 @@ module ActiveModel
       end
 
       def validate_each(record, attribute, value)
-        schemes = [*options.fetch(:schemes)].map(&:to_s)
+        schemes = [*options.fetch(:schemes)].map { |s|
+          s.to_s unless s.nil?
+        }
         begin
           uri = URI.parse(value)
           unless uri && uri.host && schemes.include?(uri.scheme) && (!options.fetch(:no_local) || uri.host.include?('.'))
@@ -49,7 +51,7 @@ module ActiveModel
       # * <tt>:message</tt> - A custom error message (default is: "is not a valid URL").
       # * <tt>:allow_nil</tt> - If set to true, skips this validation if the attribute is +nil+ (default is +false+).
       # * <tt>:allow_blank</tt> - If set to true, skips this validation if the attribute is blank (default is +false+).
-      # * <tt>:schemes</tt> - Array of URI schemes to validate against. (default is +['http', 'https']+)
+      # * <tt>:schemes</tt> - Array of URI schemes to validate against. (default is +['http', 'https', nil]+)
 
       def validates_url(*attr_names)
         validates_with UrlValidator, _merge_attributes(attr_names)

@@ -88,6 +88,14 @@ describe "URL validation" do
         expect(@user.errors[:homepage]).to eq(["は不正なURLです。"])
       end
     end
+    context "when locale is Russian" do
+      it "returns a Russian default error message" do
+        I18n.locale = :ru
+        @user.homepage = "Сайт"
+        @user.valid?
+        expect(@user.errors[:homepage]).to eq(["некорректный URL"])
+      end
+    end
   end
 
   context "with allow nil" do
@@ -112,6 +120,11 @@ describe "URL validation" do
 
     it "allows a url with an underscore" do
       @user.homepage = "http://foo_bar.com"
+      expect(@user).to be_valid
+    end
+
+    it "allows a url without scheme" do
+      @user.homepage = "//foo_bar.com"
       expect(@user).to be_valid
     end
   end
